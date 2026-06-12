@@ -115,6 +115,20 @@ After the build finishes:
 4. Change the sensor values to test each condition.
 5. Rebuild the project after changing the code.
 
+### Setting Up the PlatformIO Project from Scratch
+If you'd rather build the project manually instead of cloning:
+
+1. Install VS Code.
+2. Open Extensions (Ctrl+Shift+X) and install PlatformIO IDE.
+3. Open PlatformIO Home from the sidebar icon.
+4. Click New Project.
+5. Name it something like ESP32-Smart-Home-Wokwi.
+6. Select Espressif ESP32 Dev Module as the board and Arduino as the framework.
+7. Create the project and let PlatformIO finish setting up.
+8. Replace the generated platformio.ini with the one from this repo.
+9. Place main.c, hardware.cpp, diagram.json, and wokwi.toml in the project root.
+10. Hit the PlatformIO check-mark to build.
+
 ## Real Hardware Note
 
 This circuit is designed for simulation. A physical ESP32 uses 3.3 V GPIO.
