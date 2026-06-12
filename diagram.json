@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "author": "<your name>",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -55, "left": 0, "attrs": {} },
+
+    { "type": "wokwi-text", "id": "noteTitle", "top": -390, "left": -40, "attrs": { "text": "SMART HOME ESP32 - PIN AND PROTOCOL NOTES" } },
+    { "type": "wokwi-text", "id": "noteI2c", "top": -365, "left": -245, "attrs": { "text": "I2C BUS\nGPIO21 SDA\nGPIO22 SCL\nLCD + RTC" } },
+    { "type": "wokwi-text", "id": "noteNetwork", "top": -365, "left": 220, "attrs": { "text": "NETWORK\nWi-Fi radio\nMQTT telemetry\nHTTP alarm" } },
+    { "type": "wokwi-text", "id": "noteInputs", "top": 675, "left": -410, "attrs": { "text": "SENSOR INPUTS\nADC: GPIO33,36,39\nDigital: GPIO15,25,32,34,35\nSonar: GPIO26 TRIG / GPIO27 ECHO" } },
+    { "type": "wokwi-text", "id": "noteOutputs", "top": 675, "left": 150, "attrs": { "text": "OUTPUTS\nGPIO2 NeoPixel\nGPIO4 buzzer\nGPIO13 servo PWM\nGPIO14 relay" } },
+    { "type": "wokwi-text", "id": "noteThresholds", "top": 790, "left": -130, "attrs": { "text": "ALARM THRESHOLDS\nTemp > 45C | Gas > 3500\nWater > 3000 | Flame/Panic active\nAlarm arms after 5 seconds" } },
+
+    { "type": "wokwi-lcd2004", "id": "lcd", "top": -300, "left": -245, "attrs": { "pins": "i2c" } },
+    { "type": "wokwi-ds1307", "id": "rtc", "top": -310, "left": 125, "attrs": {} },
+    { "type": "wokwi-led-ring", "id": "ring", "top": -305, "left": 390, "attrs": { "pixels": "16" } },
+
+    { "type": "wokwi-gas-sensor", "id": "gas", "top": -40, "left": -425, "attrs": { "ppm": "100", "threshold": "4.4" } },
+    { "type": "wokwi-dht22", "id": "dht", "top": -15, "left": 405, "attrs": {} },
+    { "type": "wokwi-photoresistor-sensor", "id": "ldr", "top": 145, "left": -425, "attrs": {} },
+    { "type": "wokwi-flame-sensor", "id": "flame", "top": 150, "left": 395, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "sonar", "top": 330, "left": -430, "attrs": {} },
+    { "type": "wokwi-pir", "id": "pir", "top": 330, "left": 390, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "water", "top": 540, "left": -420, "attrs": {} },
+    { "type": "wokwi-pushbutton", "id": "panic", "top": 545, "left": 430, "attrs": { "color": "red" } },
+
+    { "type": "wokwi-buzzer", "id": "buzzer", "top": -145, "left": 620, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo", "top": 525, "left": -135, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay", "top": 525, "left": 165, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:GND.1", "lcd:GND", "black", [ "v-235", "h-230", "*" ] ],
+    [ "esp:5V", "lcd:VCC", "red", [ "v-255", "h-245", "*" ] ],
+    [ "esp:21", "lcd:SDA", "green", [ "v-210", "h-155", "*" ] ],
+    [ "esp:22", "lcd:SCL", "yellow", [ "v-195", "h-140", "*" ] ],
+
+    [ "esp:GND.1", "rtc:GND", "black", [ "v-260", "h15", "*" ] ],
+    [ "esp:5V", "rtc:VCC", "red", [ "v-275", "h25", "*" ] ],
+    [ "esp:21", "rtc:SDA", "green", [ "v-230", "h65", "*" ] ],
+    [ "esp:22", "rtc:SCL", "yellow", [ "v-215", "h75", "*" ] ],
+
+    [ "esp:GND.1", "ring:GND", "black", [ "v-250", "h360", "*" ] ],
+    [ "esp:5V", "ring:VCC", "red", [ "v-265", "h370", "*" ] ],
+    [ "esp:2", "ring:DIN", "green", [ "v-180", "h350", "*" ] ],
+
+    [ "esp:GND.1", "gas:GND", "black", [ "h-300", "*" ] ],
+    [ "esp:5V", "gas:VCC", "red", [ "v20", "h-315", "*" ] ],
+    [ "esp:39", "gas:AO", "blue", [ "h-275", "*" ] ],
+    [ "esp:34", "gas:DO", "green", [ "v-20", "h-290", "*" ] ],
+
+    [ "esp:GND.1", "dht:GND", "black", [ "h330", "*" ] ],
+    [ "esp:3V3", "dht:VCC", "red", [ "v20", "h345", "*" ] ],
+    [ "esp:15", "dht:SDA", "green", [ "h315", "*" ] ],
+
+    [ "esp:GND.1", "ldr:GND", "black", [ "v135", "h-310", "*" ] ],
+    [ "esp:3V3", "ldr:VCC", "red", [ "v150", "h-325", "*" ] ],
+    [ "esp:36", "ldr:AO", "blue", [ "v110", "h-275", "*" ] ],
+
+    [ "esp:GND.1", "flame:GND", "black", [ "v120", "h315", "*" ] ],
+    [ "esp:5V", "flame:VCC", "red", [ "v135", "h330", "*" ] ],
+    [ "esp:35", "flame:DO", "green", [ "v100", "h295", "*" ] ],
+
+    [ "esp:GND.1", "sonar:GND", "black", [ "v300", "h-320", "*" ] ],
+    [ "esp:5V", "sonar:VCC", "red", [ "v315", "h-335", "*" ] ],
+    [ "esp:26", "sonar:TRIG", "green", [ "v270", "h-285", "*" ] ],
+    [ "esp:27", "sonar:ECHO", "yellow", [ "v285", "h-295", "*" ] ],
+
+    [ "esp:GND.1", "pir:GND", "black", [ "v300", "h310", "*" ] ],
+    [ "esp:5V", "pir:VCC", "red", [ "v315", "h325", "*" ] ],
+    [ "esp:25", "pir:OUT", "green", [ "v270", "h295", "*" ] ],
+
+    [ "esp:GND.1", "water:GND", "black", [ "v500", "h-315", "*" ] ],
+    [ "esp:3V3", "water:VCC", "red", [ "v515", "h-330", "*" ] ],
+    [ "esp:33", "water:SIG", "blue", [ "v465", "h-290", "*" ] ],
+
+    [ "esp:32", "panic:1.l", "green", [ "v500", "h335", "*" ] ],
+    [ "esp:GND.1", "panic:2.l", "black", [ "v520", "h350", "*" ] ],
+
+    [ "esp:GND.1", "buzzer:1", "black", [ "v-70", "h535", "*" ] ],
+    [ "esp:4", "buzzer:2", "green", [ "v-85", "h540", "*" ] ],
+
+    [ "esp:GND.1", "servo:GND", "black", [ "v510", "h-80", "*" ] ],
+    [ "esp:5V", "servo:V+", "red", [ "v525", "h-95", "*" ] ],
+    [ "esp:13", "servo:PWM", "green", [ "v475", "h-70", "*" ] ],
+
+    [ "esp:GND.1", "relay:GND", "black", [ "v510", "h160", "*" ] ],
+    [ "esp:5V", "relay:VCC", "red", [ "v525", "h175", "*" ] ],
+    [ "esp:14", "relay:IN", "green", [ "v475", "h145", "*" ] ]
+  ]
+}
